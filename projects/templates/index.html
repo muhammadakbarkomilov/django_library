@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SofTools - Projects</title>
+  <style>
+    html, body {
+      margin: 0; padding: 0;
+      height: 100%;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(120deg, #0f0f0f, #1a1a1a);
+      color: #fff;
+      overflow-x: hidden;
+    }
+
+    #bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 0;
+    }
+
+    .container {
+      position: relative;
+      z-index: 2;
+      padding: 40px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      font-size: 2.5em;
+      text-align: center;
+      margin-bottom: 30px;
+      color: #00c3ff;
+      text-shadow: 0 0 10px #00c3ff44;
+    }
+
+    .category-buttons {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .category-buttons a {
+      text-decoration: none;
+    }
+
+    .category-buttons button {
+      margin: 5px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 25px;
+      background: #222;
+      color: white;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.2s;
+    }
+
+    .category-buttons button:hover {
+      background: #00c3ff;
+      transform: translateY(-2px);
+    }
+
+    .category-buttons button.active {
+      background: #00c3ff;
+      box-shadow: 0 0 10px #00c3ff88;
+    }
+
+    .project-container {
+  max-width: 900px; /* kontent kengligi */
+  margin: 40px auto; /* markazlashtirish */
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: 15px;
+  box-shadow: 0 0 20px rgba(0, 150, 255, 0.7);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center; /* elementlarni markazga olish */
+  gap: 30px; /* elementlar orasida bo‘sh joy */
+}
+.project {
+  flex: 1 1 300px; /* kenglik minimal 300px, moslashuvchan */
+  max-width: 320px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 15px;
+  box-shadow: 0 4px 15px rgba(0, 150, 255, 0.3);
+  text-align: center;
+  color: #aaddff;
+}
+.project img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 15px;
+  box-shadow: 0 3px 8px rgba(0, 150, 255, 0.4);
+}
+.project h3 {
+  color: #5cc6ff;
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+.project p {
+  font-size: 1rem;
+  margin-bottom: 10px;
+}
+.project a {
+  color: #4db8ff;
+  font-weight: 600;
+  text-decoration: underline;
+}
+.project:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 25px rgba(0, 195, 255, 0.3);
+}
+
+    @keyframes fadeInUp {
+      0% {
+        transform: translateY(20px);
+        opacity: 0;
+      }
+      100% {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    @media screen and (max-width: 600px) {
+  .project-container {
+    padding: 10px;
+    gap: 15px;
+  }
+  .project {
+    flex: 1 1 100%;
+    max-width: 100%;
+  }
+  .project img {
+    height: 150px;
+  }
+}
+
+
+  </style>
+</head>
+<body>
+
+<div id="bg"></div>
+
+<div class="container">
+  <h1>Portfolio</h1>
+
+  <div class="category-buttons">
+    <a href="{% url 'portfolio' %}">
+      <button class="{% if not selected_category %}active{% endif %}">Barchasi</button>
+    </a>
+    {% for category in categories %}
+      <a href="?category={{ category.id }}">
+        <button class="{% if selected_category == category.id %}active{% endif %}">
+          {{ category.name }}
+        </button>
+      </a>
+    {% endfor %}
+  </div>
+
+  <div class="projects">
+  {% for project in projects %}
+    <div class="project">
+      {% if project.thumbnail %}
+        <img src="{{ project.thumbnail.url }}" alt="{{ project.title }} rasmi" />
+      {% endif %}
+      <h3>{{ project.title }}</h3>
+      <p>{{ project.description }}</p>
+      {% if project.file %}
+        <a href="{{ project.file.url }}" download>Yuklab olish</a>
+      {% endif %}
+    </div>
+  {% empty %}
+    <p>Hozircha loyiha mavjud emas.</p>
+  {% endfor %}
+</div>
+</div>
+
+<!-- Particles.js background -->
+<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+<script>
+  // DOM to'liq yuklangandan keyin ishga tushirish
+  document.addEventListener("DOMContentLoaded", function () {
+    particlesJS("bg", {
+      "particles": {
+        "number": {
+          "value": 100,
+          "density": {
+            "enable": true,
+            "value_area": 800
+          }
+        },
+        "color": {
+          "value": "#ffffff"
+        },
+        "shape": {
+          "type": "circle"
+        },
+        "opacity": {
+          "value": 0.5
+        },
+        "size": {
+          "value": 3
+        },
+        "line_linked": {
+          "enable": true,
+          "distance": 150,
+          "color": "#ffffff",
+          "opacity": 0.4,
+          "width": 1
+        },
+        "move": {
+          "enable": true,
+          "speed": 2
+        }
+      },
+      "interactivity": {
+        "detect_on": "canvas",
+        "events": {
+          "onhover": {
+            "enable": true,
+            "mode": "repulse"
+          },
+          "onclick": {
+            "enable": true,
+            "mode": "push"
+          }
+        },
+        "modes": {
+          "repulse": {
+            "distance": 100
+          },
+          "push": {
+            "particles_nb": 4
+          }
+        }
+      },
+      "retina_detect": true
+    });
+  });
+</script>
+
+</body>
+</html>
