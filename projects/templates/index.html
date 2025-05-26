@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <title>SofTools - Projects</title>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     html, body {
       margin: 0; padding: 0;
@@ -69,51 +71,174 @@
     }
 
     .project-container {
-  max-width: 900px; /* kontent kengligi */
-  margin: 40px auto; /* markazlashtirish */
-  padding: 20px;
-  border-radius: 15px;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center; /* elementlarni markazga olish */
-  gap: 30px; /* elementlar orasida bo‘sh joy */
-}
-.project {
-  flex: 1 1 300px; /* kenglik minimal 300px, moslashuvchan */
-  max-width: 320px;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 12px;
-  padding: 15px;
-  box-shadow: 0 4px 15px rgba(0, 150, 255, 0.3);
-  text-align: center;
-  color: #aaddff;
-}
-.project img {
-  width: 100%;
-  height: 180px;
-  object-fit: cover;
-  border-radius: 10px;
-  margin-bottom: 15px;
-  box-shadow: 0 3px 8px rgba(0, 150, 255, 0.4);
-}
-.project h3 {
-  color: #5cc6ff;
-  font-weight: 700;
-  margin-bottom: 5px;
-}
-.project p {
-  font-size: 1rem;
-  margin-bottom: 10px;
-}
-.project a {
-  color: #4db8ff;
-  font-weight: 600;
-  text-decoration: underline;
-}
-.project:hover {
-  transform: scale(1.05);
-  box-shadow: 0 6px 25px rgba(0, 195, 255, 0.3);
-}
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 20px;
+      border-radius: 15px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 30px;
+    }
+    
+    .project {
+      flex: 1 1 300px;
+      max-width: 320px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 15px;
+      box-shadow: 0 4px 15px rgba(0, 150, 255, 0.3);
+      text-align: center;
+      color: #aaddff;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+    
+    .project-image-container {
+      position: relative;
+      width: 100%;
+      height: 180px;
+      overflow: hidden;
+      border-radius: 10px;
+      margin-bottom: 15px;
+      cursor: pointer;
+    }
+    
+    .project img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+    
+    .zoom-icon {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: white;
+      font-size: 2rem;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      z-index: 2;
+      background: rgba(0, 0, 0, 0.5);
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+    }
+    
+    .project-image-container:hover .zoom-icon {
+      opacity: 1;
+    }
+    
+    .project-image-container:hover img {
+      transform: scale(1.1);
+    }
+    
+    .project h3 {
+      color: #5cc6ff;
+      font-weight: 700;
+      margin-bottom: 5px;
+    }
+    
+    .project p {
+      font-size: 1rem;
+      margin-bottom: 10px;
+    }
+    
+    .project a {
+      color: #4db8ff;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: color 0.3s;
+    }
+    
+    .project a:hover {
+      color: #00c3ff;
+      text-decoration: underline;
+    }
+    
+    .project:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 25px rgba(0, 195, 255, 0.3);
+    }
+
+    /* Lightbox styles */
+    .lightbox {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.9);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    
+    .lightbox.active {
+      display: flex;
+      opacity: 1;
+    }
+    
+    .lightbox-content {
+      position: relative;
+      max-width: 90%;
+      max-height: 90%;
+      animation: zoomIn 0.3s ease;
+    }
+    
+    .lightbox-img {
+      max-width: 100%;
+      max-height: 80vh;
+      border-radius: 8px;
+      box-shadow: 0 0 20px rgba(0, 195, 255, 0.5);
+      display: block;
+    }
+    
+    .lightbox-close {
+      position: absolute;
+      top: -40px;
+      right: -10px;
+      color: white;
+      font-size: 2rem;
+      cursor: pointer;
+      background: rgba(255, 255, 255, 0.2);
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+    
+    .lightbox-close:hover {
+      background: rgba(255, 255, 255, 0.4);
+      transform: rotate(90deg);
+    }
+    
+    .lightbox-caption {
+      position: absolute;
+      bottom: -30px;
+      left: 0;
+      width: 100%;
+      text-align: center;
+      color: white;
+      padding: 10px;
+      background: rgba(0, 0, 0, 0.7);
+      border-radius: 0 0 8px 8px;
+    }
 
     @keyframes fadeInUp {
       0% {
@@ -126,21 +251,45 @@
       }
     }
 
+    @keyframes zoomIn {
+      0% {
+        transform: scale(0.8);
+        opacity: 0;
+      }
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
     @media screen and (max-width: 600px) {
-  .project-container {
-    padding: 10px;
-    gap: 15px;
-  }
-  .project {
-    flex: 1 1 100%;
-    max-width: 100%;
-  }
-  .project img {
-    height: 150px;
-  }
-}
-
-
+      .container {
+        padding: 20px;
+      }
+      
+      .project-container {
+        padding: 10px;
+        gap: 15px;
+      }
+      
+      .project {
+        flex: 1 1 100%;
+        max-width: 100%;
+      }
+      
+      .project-image-container {
+        height: 150px;
+      }
+      
+      .lightbox-img {
+        max-height: 60vh;
+      }
+      
+      .lightbox-close {
+        top: -50px;
+        right: 0;
+      }
+    }
   </style>
 </head>
 <body>
@@ -164,28 +313,49 @@
   </div>
 
   <div class="projects project-container">
-  {% for project in projects %}
-    <div class="project">
-      {% if project.thumbnail %}
-        <img src="{{ project.thumbnail.url }}" alt="{{ project.title }} rasmi" />
-      {% endif %}
-      <h3>{{ project.title }}</h3>
-      <p>{{ project.description }}</p>
-      {% if project.file %}
-        <a href="{{ project.file.url }}" download>Yuklab olish</a>
-      {% endif %}
-    </div>
-  {% empty %}
-    <p>Hozircha loyiha mavjud emas.</p>
-  {% endfor %}
+    {% for project in projects %}
+      <div class="project">
+        <div class="project-image-container">
+          {% if project.thumbnail %}
+            <img src="{{ project.thumbnail.url }}" alt="{{ project.title }}" class="project-img" data-title="{{ project.title }}" data-description="{{ project.description }}" />
+            <div class="zoom-icon">
+              <i class="fas fa-search-plus"></i>
+            </div>
+          {% endif %}
+        </div>
+        <h3>{{ project.title }}</h3>
+        <p>{{ project.description }}</p>
+        {% if project.file %}
+          <a href="{{ project.file.url }}" download>
+            <i class="fas fa-download"></i> Yuklab olish
+          </a>
+        {% endif %}
+      </div>
+    {% empty %}
+      <p>Hozircha loyiha mavjud emas.</p>
+    {% endfor %}
+  </div>
 </div>
+  
+<div class="lightbox" id="lightbox">
+  <div class="lightbox-content">
+    <span class="lightbox-close" id="lightbox-close">
+      <i class="fas fa-times"></i>
+    </span>
+    <img src="" alt="" class="lightbox-img" id="lightbox-img">
+    <div class="lightbox-caption">
+      <h3 id="lightbox-title"></h3>
+      <p id="lightbox-description"></p>
+    </div>
+  </div>
 </div>
 
-<!-- Particles.js background -->
+
 <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
 <script>
-  // DOM to'liq yuklangandan keyin ishga tushirish
+  
   document.addEventListener("DOMContentLoaded", function () {
+    
     particlesJS("bg", {
       "particles": {
         "number": {
@@ -202,10 +372,12 @@
           "type": "circle"
         },
         "opacity": {
-          "value": 0.5
+          "value": 0.5,
+          "random": true
         },
         "size": {
-          "value": 3
+          "value": 3,
+          "random": true
         },
         "line_linked": {
           "enable": true,
@@ -216,7 +388,12 @@
         },
         "move": {
           "enable": true,
-          "speed": 2
+          "speed": 2,
+          "direction": "none",
+          "random": true,
+          "straight": false,
+          "out_mode": "out",
+          "bounce": false
         }
       },
       "interactivity": {
@@ -242,6 +419,63 @@
       },
       "retina_detect": true
     });
+
+    
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+    const lightboxTitle = document.getElementById('lightbox-title');
+    const lightboxDescription = document.getElementById('lightbox-description');
+    const closeBtn = document.getElementById('lightbox-close');
+    
+    
+    const projectImages = document.querySelectorAll('.project-img');
+    const projectContainers = document.querySelectorAll('.project-image-container');
+    
+    
+    projectImages.forEach(img => {
+      img.addEventListener('click', openLightbox);
+    });
+    
+    
+    projectContainers.forEach(container => {
+      container.addEventListener('click', function(e) {
+        const img = this.querySelector('.project-img');
+        if (img) {
+          openLightbox.call(img, e);
+        }
+      });
+    });
+    
+   
+    function openLightbox(e) {
+      e.stopPropagation();
+      lightboxImg.src = this.src;
+      lightboxTitle.textContent = this.dataset.title;
+      lightboxDescription.textContent = this.dataset.description;
+      lightbox.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+    
+    
+    closeBtn.addEventListener('click', closeLightbox);
+    
+    
+    lightbox.addEventListener('click', function(e) {
+      if (e.target === lightbox) {
+        closeLightbox();
+      }
+    });
+    
+    
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && lightbox.classList.contains('active')) {
+        closeLightbox();
+      }
+    });
+    function closeLightbox() {
+      lightbox.classList.remove('active');
+      document.body.style.overflow = 'auto';
+    }
   });
 </script>
 
